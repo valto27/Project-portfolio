@@ -1,0 +1,17 @@
+# Dati locali
+*.xlsx
+*.csv
+*.xls
+
+# Output generati
+results/
+risk_output*/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+.env
+venv/
+.venv/

@@ -6,10 +6,8 @@ TICKER_MAP = {
     "VIX Index":       "^VIX",
     "EURUSD Curncy":   "EURUSD=X",
     "USGG10YR Index":  "^TNX",
-    "USGG3M Index":    "^IRX",
-    "USGG1M Index":    "^IRX",
-    "MXWD Index":      "ACWI",
-    "VXEEM":           "VXEEM",
+    "Gold":            "GLD",
+    "Oil":             "USO",
 }
 
 CONFIG = {
@@ -28,7 +26,14 @@ CONFIG = {
     "start_row":       3,
 
     # Scope
-    "target_assets":   ["ACWI US Equity"],
+    "target_assets":   ["ACWI US Equity",
+    "S&P 500",
+    "MSCI Emerging",
+    "MSCI Europe",
+    "EURUSD Curncy",
+    "USGG10YR Index",
+    "Gold",
+    "Oil"],
 
     # Returns
     "use_log_returns":      True,

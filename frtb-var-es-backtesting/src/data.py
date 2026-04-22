@@ -9,7 +9,7 @@ def load_data(assets, start_date, end_date):
         ticker=TICKER_MAP.get(asset)
 
         if ticker:
-            df=yf.download(ticker, start=start_date, end=end_date, progress=False)
+            df=yf.download(ticker, start=start_date, end=end_date, progress=False, auto_adjust=True)
             if not df.empty:
                 data[asset]=df['Close'].squeeze()
 

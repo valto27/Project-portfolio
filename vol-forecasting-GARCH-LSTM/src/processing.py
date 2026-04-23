@@ -23,5 +23,6 @@ df_processed = pd.DataFrame({
     'Log_Returns': log_returns,
     'Realized_Variance': realized_variance
 })
+df_processed = df_processed.dropna()
 
 df_processed.to_csv(os.path.join(output_dir, "processed_data.csv"), index=True)

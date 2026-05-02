@@ -7,11 +7,14 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.model_selection import TimeSeriesSplit
 from processing import df_processed
 
+n_splits = 5
+
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 processed_dir = os.path.join(base_dir, 'data', 'processed')
 metrics_dir = os.path.join(base_dir, 'results', 'metrics')
+predictions_dir = os.path.join(base_dir, 'results', 'predictions')
 
-for d in [processed_dir, metrics_dir]:
+for d in [processed_dir, metrics_dir, predictions_dir]:
     if not os.path.exists(d):
         os.makedirs(d)
 
@@ -39,6 +42,13 @@ for fold, (train_index, test_index) in enumerate(tscv.split(log_returns)):
     fold_results.append({'Fold': fold + 1, 'RMSE': rmse, 'MAE': mae})
     print(f"Fold {fold + 1} completato.")
 
+    if fold == n_splits - 1:
+        pred_df=pd.DataFrame({
+            'y_true': realized_variances,
+            'y_pred_garch': pred_variances
+        }, index=test.index)
+        pred_df.to_csv(os.path.join(predictions_dir, f"garch_predictions_fold_{fold + 1}.csv"), index=True)
+
 total_training_time = time.time() - start_time
 
 df_metrics = pd.DataFrame(fold_results)
@@ -64,3 +74,4 @@ print("-" * 30)
 print(f"Training Time Totale: {total_training_time:.4f} secondi")
 print(f"Metriche salvate in: {metrics_dir}")
 print(f"Feature GARCH salvata in: {processed_dir}")
+

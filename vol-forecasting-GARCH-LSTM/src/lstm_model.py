@@ -10,11 +10,14 @@ import copy
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
+n_splits = 5
+
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 processed_dir = os.path.join(base_dir, 'data', 'processed')
 metrics_dir = os.path.join(base_dir, 'results', 'metrics')
 models_dir = os.path.join(base_dir, 'models')
-for d in [processed_dir, metrics_dir, models_dir]:
+prediction_dir = os.path.join(base_dir, 'results', 'predictions')
+for d in [processed_dir, metrics_dir, models_dir, prediction_dir]:
     if not os.path.exists(d):
         os.makedirs(d)
 
@@ -136,6 +139,13 @@ def train_model():
             
             fold_results.append({'Fold': fold + 1, 'RMSE': rmse, 'MAE': mae})
             print(f"Fold {fold+1} completato — RMSE: {rmse:.6f} | MAE: {mae:.6f}")
+
+        if fold == n_splits-1:
+            pred_df = pd.DataFrame({
+                'y_true': y_true,
+                'y_pred_lstm': y_pred
+            }, index=df_merged.index[test_index][-len(y_true):])
+            pred_df.to_csv(os.path.join(prediction_dir, f"lstm_predictions_fold_{fold + 1}.csv"), index=True)
 
     total_time = (time.time() - start_time_total) / 60
     

@@ -9,19 +9,16 @@ import io
 from config import TICKERS, START_DATE, END_DATE
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-prices_dir = os.path.join(base_dir, 'data', 'prices')
-file_path = os.path.join(prices_dir, 'prices.csv')
-ff_path = os.path.join(base_dir, 'data', 'fama_french.csv')
-rf_path = os.path.join(base_dir, 'data', 'risk_free.csv')
+data_dir = os.path.join(base_dir, 'data')
+prices_path = os.path.join(data_dir, 'prices.csv')
+ff_path = os.path.join(data_dir, 'fama_french.csv')
+rf_path = os.path.join(data_dir, 'risk_free.csv')
 
-os.makedirs(os.path.join(base_dir, 'data'), exist_ok=True)
+os.makedirs(data_dir, exist_ok=True)
 
 def load_prices():
-    if not os.path.exists(prices_dir):
-        os.makedirs(prices_dir)
-
-    if os.path.exists(file_path):
-        return pd.read_csv(file_path, index_col=0, parse_dates=True)
+    if os.path.exists(prices_path):
+        return pd.read_csv(prices_path, index_col=0, parse_dates=True)
     
     prices = yfinance.download(TICKERS, start=START_DATE, end=END_DATE)['Close']
     
@@ -37,7 +34,7 @@ def load_prices():
     removed_tickers = tickers_before - tickers_after    
     print(f"Removed tickers due to NaN values: {removed_tickers}")
 
-    prices.to_csv(file_path)
+    prices.to_csv(prices_path)
     return prices
 
 def load_fama_french():

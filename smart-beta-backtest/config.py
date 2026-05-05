@@ -11,3 +11,8 @@ TICKERS = ['AAPL', 'MSFT', 'JPM', 'JNJ', 'XOM', 'BAC', 'WMT', 'PG', 'CVX', 'HD',
            'ALL', 'TRV', 'CB', 'PGR', 'MET', 'PRU', 'APD', 'SHW', 'PPG', 'ECL',
            'IFF', 'EMN', 'NUE', 'WY', 'PKG', 'BEN', 'TROW', 'STT', 'NTRS', 'FIS',
            'BDX', 'BSX', 'SYK', 'ZBH', 'BAX', 'EW', 'RMD', 'HOLX', 'CARR', 'IDXX']
+
+
+MOMENTUM_LOOKBACK = 12
+MOMENTUM_SKIP = 1
+LOWVOL_LOOKBACK = 6

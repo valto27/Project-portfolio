@@ -1,5 +1,5 @@
 import pandas as pd
-from data_loader import load_prices
+from src.data_loader import load_prices
 import os
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,7 +18,7 @@ def compute_low_volatility(monthly_returns):
     return low_volatility
 
 if __name__ == "__main__":
-    from data_loader import load_prices
+    from src.data_loader import load_prices
     prices = load_prices()
     prices = prices.resample('ME').last()
     yields = prices.pct_change()

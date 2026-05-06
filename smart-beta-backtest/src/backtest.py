@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from portfolio import equal_weights, markowitz_weights, risk_parity_weights
+from src.portfolio import equal_weights, markowitz_weights, risk_parity_weights
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 data_dir = os.path.join(base_dir, 'data')
@@ -64,12 +64,12 @@ def run_backtest(prices, signal, method, cost_bps):
     
 
 if __name__ == "__main__":
-    from data_loader import load_prices
+    from src.data_loader import load_prices
     prices = load_prices()
     
     yields = prices.pct_change()
 
-    from signals import compute_momentum
+    from src.signals import compute_momentum
     signal = compute_momentum(prices.resample('ME').last())
 
     results = run_backtest(prices, signal, method='equal', cost_bps=10)

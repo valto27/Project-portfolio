@@ -12,6 +12,7 @@ def equal_weights(selected_tickers):
     return pd.Series(weight, index=selected_tickers)
 
 def markowitz_weights(returns):
+    returns = returns.dropna()
     lw = LedoitWolf().fit(returns)
     cov_matrix = lw.covariance_
     mu = returns.mean().values
@@ -32,11 +33,15 @@ def markowitz_weights(returns):
     
     prob = cp.Problem(objective, constraints)
     prob.solve()
+
+    if y.value is None or k.value is None:
+        return equal_weights(list(returns.columns))
     
     optimal_weights = y.value / k.value
     return pd.Series(optimal_weights, index=returns.columns)
 
 def risk_parity_weights(returns):
+    returns = returns.dropna()
     lw = LedoitWolf().fit(returns)
     cov_matrix = lw.covariance_
     volatilities = np.sqrt(np.diag(cov_matrix))
@@ -45,7 +50,7 @@ def risk_parity_weights(returns):
     return pd.Series(weights, index=returns.columns)
 
 if __name__ == "__main__":
-    from data_loader import load_prices
+    from src.data_loader import load_prices
     selected_tickers = ['AAPL', 'MSFT', 'JPM', 'JNJ', 'XOM']
     prices = load_prices()
     prices = prices[selected_tickers].resample('ME').last()
